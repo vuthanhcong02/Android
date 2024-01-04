@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.btl.quizapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.btl.quizapp"

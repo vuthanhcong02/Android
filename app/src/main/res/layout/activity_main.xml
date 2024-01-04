@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C5a15f"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200sp"
+        android:text="Quizz app"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="35sp" />
+
+    <Spinner
+        android:id="@+id/spiner_category"
+        android:background="@color/white"
+        android:layout_width="156dp"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60sp"
+
+        />
+    <TextView
+        android:id="@+id/textview_high_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20sp"
+        android:layout_gravity="center"
+        android:text="Diem cao: 100"
+        android:textSize="30sp"
+        android:textColor="#46c021"
+        android:textStyle="bold"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/button_start_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#6b21c0"
+        android:layout_marginTop="30sp"
+        android:layout_gravity="center"
+        android:text="Start"
+        />
+
+</LinearLayout>
