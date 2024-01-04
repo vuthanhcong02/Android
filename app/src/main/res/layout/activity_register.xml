@@ -118,13 +118,28 @@
         app:layout_constraintStart_toStartOf="@+id/input_confirmPassword"
         app:layout_constraintTop_toBottomOf="@+id/input_confirmPassword" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Already have an account? Login"
-        android:textColor="@color/white"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/btn_register"
         app:layout_constraintStart_toStartOf="@+id/btn_register"
-        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_register">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Already have an account?"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/text_switch_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Login"
+            android:textColor="#EFD808" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
