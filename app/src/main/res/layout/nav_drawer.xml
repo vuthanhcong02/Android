@@ -99,26 +99,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
-        android:id="@+id/logout"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="Đăng xuất"
-            android:textStyle="bold"
-            android:textSize="17dp"
-            android:drawableLeft="@drawable/ic_logout"
-            android:padding="10dp"
-            android:drawablePadding="10dp"
-            android:textColor="@color/lavender"
-            android:drawableTint="@color/lavender"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
         android:id="@+id/change_password"
         >
         <TextView
@@ -135,4 +115,25 @@
             android:drawableTint="@color/lavender"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:id="@+id/logout"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="Đăng xuất"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:drawableLeft="@drawable/ic_logout"
+            android:padding="10dp"
+            android:drawablePadding="10dp"
+            android:textColor="@color/lavender"
+            android:drawableTint="@color/lavender"
+            />
+    </LinearLayout>
+
 </LinearLayout>
