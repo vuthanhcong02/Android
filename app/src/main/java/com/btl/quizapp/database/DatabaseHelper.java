@@ -1,10 +1,14 @@
 package com.btl.quizapp.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.btl.quizapp.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "quiz.db";
@@ -64,5 +68,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Table.QuestionsTable.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Table.HistoryQuizTable.TABLE_NAME);
         onCreate(db);
+    }
+
+    public Boolean addUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Table.UsersTable.COLUMN_USERNAME, user.getUsername());
+        contentValues.put(Table.UsersTable.COLUMN_EMAIL, user.getEmail());
+        contentValues.put(Table.UsersTable.COLUMN_PASSWORD, user.getPassword());
+        long result = db.insert(Table.UsersTable.TABLE_NAME, null, contentValues);
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
