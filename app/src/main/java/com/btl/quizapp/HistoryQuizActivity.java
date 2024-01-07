@@ -12,14 +12,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class HistoryQuizActivity extends AppCompatActivity {
+
     DrawerLayout drawerLayout;
     ImageView menu;
     LinearLayout home, historyQuiz, changePassword,logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_history_quiz);
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.home);
@@ -35,26 +36,26 @@ public class MainActivity extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(MainActivity.this, MainActivity.class);
+                redirectActivity(HistoryQuizActivity.this, MainActivity.class);
             }
         });
         historyQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(MainActivity.this, HistoryQuizActivity.class);
+                redirectActivity(HistoryQuizActivity.this, HistoryQuizActivity.class);
             }
         });
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirectActivity(MainActivity.this, ChangePasswordActivity.class);
+                redirectActivity(HistoryQuizActivity.this, ChangePasswordActivity.class);
             }
         });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                redirectActivity(MainActivity.this, MainActivity.class);
-                Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryQuizActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -69,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
 //            super.onBackPressed();
 //        }
 //    }
-
-    @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
     public static void redirectActivity(Activity activity, Class secondActivity) {
         Intent intent = new Intent(activity, secondActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
