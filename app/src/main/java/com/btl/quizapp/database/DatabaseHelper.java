@@ -1,10 +1,16 @@
 package com.btl.quizapp.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ContentValues;
 
 import androidx.annotation.Nullable;
+
+import com.btl.quizapp.QuizCategory;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "quiz.db";
@@ -65,4 +71,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Table.HistoryQuizTable.TABLE_NAME);
         onCreate(db);
     }
+
+
+    //Nanh
+    public boolean isCategoryExists(String categoryName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] projection = {Table.CategoriesTable._ID};
+
+        String selection = Table.CategoriesTable.COLUMN_NAME + "=?";
+        String[] selectionArgs = {categoryName};
+
+        Cursor cursor = db.query(
+                Table.CategoriesTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        db.close();
+
+        return exists;
+    }
+    public void createCategories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        String[] categoryNames = {"Toán", "Lý", "Hóa", "Văn", "Anh", "Sinh"};
+
+        for (int i = 0; i < categoryNames.length; i++) {
+            // Kiểm tra xem category đã tồn tại hay chưa
+            if (!isCategoryExists(categoryNames[i])) {
+                ContentValues values = new ContentValues();
+                values.put(Table.CategoriesTable.COLUMN_NAME, categoryNames[i]);
+
+                db.insert(Table.CategoriesTable.TABLE_NAME, null, values);
+            }
+        }
+
+        db.close();
+    }
+
+    public ArrayList<QuizCategory> getAllCategories() {
+        ArrayList<QuizCategory> categoriesList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] projection = {
+                Table.CategoriesTable._ID,
+                Table.CategoriesTable.COLUMN_NAME
+        };
+
+        Cursor cursor = db.query(
+                Table.CategoriesTable.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(Table.CategoriesTable.COLUMN_NAME));
+
+                categoriesList.add(new QuizCategory(categoryName));
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        db.close();
+        return categoriesList;
+    }
+    // <>
+
 }
