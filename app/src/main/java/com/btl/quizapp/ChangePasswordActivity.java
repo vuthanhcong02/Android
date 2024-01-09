@@ -6,10 +6,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChangePasswordActivity extends AppCompatActivity {
@@ -17,6 +19,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
     LinearLayout home, historyQuiz, changePassword,logout;
+    TextView username, email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.home);
+        username = findViewById(R.id.txtUsername);
+        email = findViewById(R.id.txtEmail);
+        // show account = sharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        String id = preferences.getString("id_Infor", "");
+        String usernameInfor = preferences.getString("username_Infor", "");
+        String emailInfor = preferences.getString("email_Infor", "");
+        String passwordInfor = preferences.getString("password_Infor", "");
+        username.setText(usernameInfor);
+        email.setText(emailInfor);
+        //
         historyQuiz = findViewById(R.id.history_quiz);
         changePassword = findViewById(R.id.change_password);
         logout = findViewById(R.id.logout);
@@ -54,8 +69,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                redirectActivity(MainActivity.this, MainActivity.class);
-                Toast.makeText(ChangePasswordActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                redirectActivity(ChangePasswordActivity.this, LoginActivity.class);
             }
         });
     }

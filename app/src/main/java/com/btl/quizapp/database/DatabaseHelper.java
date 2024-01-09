@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             user.setUsername(cursor.getString(1));
             user.setEmail(cursor.getString(2));
             user.setPassword(cursor.getString(3));
-            return new User(user.getUsername(), user.getEmail(), user.getPassword());
+            return user;
         }
         return null;
     }

@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                redirectActivity(MainActivity.this, MainActivity.class);
-                Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                redirectActivity(MainActivity.this,LoginActivity.class);
             }
         });
     }
@@ -107,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        closeDrawer(drawerLayout);
         onBackPressed();
     }
 }
