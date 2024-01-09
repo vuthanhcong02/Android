@@ -113,4 +113,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+    public void updatePassword(int id, String password) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Table.UsersTable.COLUMN_PASSWORD, password);
+        db.update(Table.UsersTable.TABLE_NAME, contentValues,
+                Table.UsersTable._ID + " = ?",
+                new String[]{String.valueOf(id)});
+    }
 }
