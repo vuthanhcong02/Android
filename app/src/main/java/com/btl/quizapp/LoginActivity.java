@@ -3,8 +3,10 @@ package com.btl.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.btl.quizapp.database.DatabaseHelper;
+import com.btl.quizapp.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
@@ -40,8 +43,27 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     DatabaseHelper databaseHelper = new DatabaseHelper(LoginActivity.this);
                     if (databaseHelper.checkUsernamePassword(username, password)) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        User user = databaseHelper.getUserData(username, password);
+                        if(user != null){
+//                            Log.d("UserInfo", "Username: " + user.getUsername() + ", Email: " + user.getEmail());
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            String id = String.valueOf(user.getId());
+//                            intent.putExtra("id_Infor", id);
+                            String usernameInfor = user.getUsername();
+//                            intent.putExtra("username_Infor", usernameInfor);
+                            String emailInfor = user.getEmail();
+//                            intent.putExtra("email_Infor", emailInfor);
+                            String passwordInfor = user.getPassword();
+//                            intent.putExtra("password_Infor", passwordInfor);
+                            SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("id_Infor", id);
+                            editor.putString("username_Infor", usernameInfor);
+                            editor.putString("email_Infor", emailInfor);
+                            editor.putString("password_Infor", passwordInfor);
+                            editor.apply();
+                            startActivity(intent);
+                        }
                     }
                     else {
                         Snackbar.make(v, "Sai tên đăng nhập hoặc mật khẩu!", Snackbar.LENGTH_SHORT).show();

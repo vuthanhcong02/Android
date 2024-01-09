@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Boolean addUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Table.UsersTable.COLUMN_USERNAME, user.getUsername());
         contentValues.put(Table.UsersTable.COLUMN_EMAIL, user.getEmail());
@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public Boolean checkUsernamePassword(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " +
                 Table.UsersTable.TABLE_NAME + " where " +
                 Table.UsersTable.COLUMN_USERNAME +" = ? and " +
@@ -94,5 +94,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
         return false;
+    }
+    public User getUserData(String username, String password) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " +
+                        Table.UsersTable.TABLE_NAME + " where " +
+                        Table.UsersTable.COLUMN_USERNAME + " = ? and " +
+                        Table.UsersTable.COLUMN_PASSWORD + " = ?",
+                new String[]{username, password});
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            User user = new User();
+            user.setId(cursor.getInt(0));
+            user.setUsername(cursor.getString(1));
+            user.setEmail(cursor.getString(2));
+            user.setPassword(cursor.getString(3));
+            return new User(user.getUsername(), user.getEmail(), user.getPassword());
+        }
+        return null;
     }
 }
