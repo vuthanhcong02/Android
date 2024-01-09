@@ -83,4 +83,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+    public Boolean checkUsernamePassword(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " +
+                Table.UsersTable.TABLE_NAME + " where " +
+                Table.UsersTable.COLUMN_USERNAME +" = ? and " +
+                Table.UsersTable.COLUMN_PASSWORD +" = ?",
+                new String[] {username, password});
+        if(cursor.getCount() > 0) {
+            return true;
+        }
+        return false;
+    }
 }

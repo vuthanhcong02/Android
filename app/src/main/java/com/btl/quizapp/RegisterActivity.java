@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Snackbar.make(v, "Vui lòng điền đầy đủ thông tin !", Snackbar.LENGTH_SHORT).show();
                     validationPassed = false;
                 }
-                if (username.isEmpty()) {
+                else if (username.isEmpty()) {
                     username_input.setError("Tên đăng nhập không được để trống!");
                     username_input.requestFocus();
                     validationPassed = false;
@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                     validationPassed = false;
                 }
 
-                if (email.isEmpty() || !email.contains("@") || !email.contains(".com")) {
+                else if (email.isEmpty() || !email.contains("@") || !email.contains(".com")) {
                     email_input.setError("Email không đúng định dạng!");
                     email_input.requestFocus();
                     validationPassed = false;
@@ -98,9 +98,11 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String username = username_input.getText().toString();
                 String password = password_input.getText().toString();
+                String email = email_input.getText().toString();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
             }
