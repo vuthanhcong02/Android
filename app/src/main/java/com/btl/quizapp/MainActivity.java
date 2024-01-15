@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.btl.quizapp.adapter.QuizCategoryAdapter;
@@ -25,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
     LinearLayout home, historyQuiz, changePassword,logout;
-
     RecyclerView recyclerView;
     ArrayList<QuizCategory> categoriesList;
+    TextView username, email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,19 @@ public class MainActivity extends AppCompatActivity {
         changePassword = findViewById(R.id.change_password);
         logout = findViewById(R.id.logout);
 
-
+        // show account = sharedPreferences
+        username = findViewById(R.id.txtUsername);
+        email = findViewById(R.id.txtEmail);
+//        Intent intent = getIntent();
+//        Log.d("UserInfo", "Username: " + intent.getStringExtra("username_Infor"));
+//        Log.d("UserInfo", "Email: " + intent.getStringExtra("email_Infor"));
+        SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+        String id = preferences.getString("id_Infor", "");
+        String usernameInfor = preferences.getString("username_Infor", "");
+        String emailInfor = preferences.getString("email_Infor", "");
+        String passwordInfor = preferences.getString("password_Infor", "");
+        username.setText(usernameInfor);
+        email.setText(emailInfor);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +82,11 @@ public class MainActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                redirectActivity(MainActivity.this, MainActivity.class);
-                Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                redirectActivity(MainActivity.this,LoginActivity.class);
             }
         });
 
@@ -148,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        closeDrawer(drawerLayout);
         onBackPressed();
     }
 }

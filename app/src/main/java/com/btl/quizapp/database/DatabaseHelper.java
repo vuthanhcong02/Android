@@ -1,5 +1,6 @@
 package com.btl.quizapp.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.btl.quizapp.model.Question;
 import com.btl.quizapp.model.QuizCategory;
+import com.btl.quizapp.model.User;
 
 import java.util.ArrayList;
 
@@ -72,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Table.HistoryQuizTable.TABLE_NAME);
         onCreate(db);
     }
-
 
     //Nanh
     public boolean isCategoryExists(String categoryName) {
@@ -196,4 +197,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // <>
 
+    public Boolean addUser(User user) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Table.UsersTable.COLUMN_USERNAME, user.getUsername());
+        contentValues.put(Table.UsersTable.COLUMN_EMAIL, user.getEmail());
+        contentValues.put(Table.UsersTable.COLUMN_PASSWORD, user.getPassword());
+        long result = db.insert(Table.UsersTable.TABLE_NAME, null, contentValues);
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public Boolean checkUsernamePassword(String username, String password) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " +
+                Table.UsersTable.TABLE_NAME + " where " +
+                Table.UsersTable.COLUMN_USERNAME +" = ? and " +
+                Table.UsersTable.COLUMN_PASSWORD +" = ?",
+                new String[] {username, password});
+        if(cursor.getCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+    public User getUserData(String username, String password) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " +
+                        Table.UsersTable.TABLE_NAME + " where " +
+                        Table.UsersTable.COLUMN_USERNAME + " = ? and " +
+                        Table.UsersTable.COLUMN_PASSWORD + " = ?",
+                new String[]{username, password});
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            User user = new User();
+            user.setId(cursor.getInt(0));
+            user.setUsername(cursor.getString(1));
+            user.setEmail(cursor.getString(2));
+            user.setPassword(cursor.getString(3));
+            return user;
+        }
+        return null;
+    }
+    public void updatePassword(int id, String password) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Table.UsersTable.COLUMN_PASSWORD, password);
+        db.update(Table.UsersTable.TABLE_NAME, contentValues,
+                Table.UsersTable._ID + " = ?",
+                new String[]{String.valueOf(id)});
+    }
 }
