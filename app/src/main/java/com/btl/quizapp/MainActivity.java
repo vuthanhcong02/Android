@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.btl.quizapp.adapter.QuizCategoryAdapter;
 import com.btl.quizapp.database.DatabaseHelper;
+import com.btl.quizapp.model.QuizCategory;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout home, historyQuiz, changePassword,logout;
 
     RecyclerView recyclerView;
-    ArrayList<QuizCategory> quizCategories;
+    ArrayList<QuizCategory> categoriesList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,12 +84,20 @@ public class MainActivity extends AppCompatActivity {
         QuizCategoryAdapter adapter = new QuizCategoryAdapter(this, quizCategories);
         recyclerView.setAdapter(adapter);
 
-        // Bổ sung phần xử lý sự kiện khi người dùng chọn một phân loại quiz
+// Bổ sung phần xử lý sự kiện khi người dùng chọn một phân loại quiz
         adapter.setOnItemClickListener(new QuizCategoryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                // Xử lý khi người dùng chọn một phân loại quiz
-                // Chẳng hạn, mở màn hình danh sách các bài quiz trong phân loại này
+            public void onItemClick(int categoryId) {
+                if (categoryId != -1) {
+                    Log.d("MainActivity", "Clicked category ID: " + categoryId);
+
+                    // Chuyển sang QuestionsActivity và truyền ID của category
+                    Intent intent = new Intent(MainActivity.this, QuestionsActivity.class);
+                    intent.putExtra("CATEGORY_ID", categoryId);
+                    startActivity(intent);
+                } else {
+                    Log.e("MainActivity", "Invalid category ID");
+                }
             }
         });
 

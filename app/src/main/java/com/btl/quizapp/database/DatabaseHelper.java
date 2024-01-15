@@ -8,7 +8,8 @@ import android.content.ContentValues;
 
 import androidx.annotation.Nullable;
 
-import com.btl.quizapp.QuizCategory;
+import com.btl.quizapp.model.Question;
+import com.btl.quizapp.model.QuizCategory;
 
 import java.util.ArrayList;
 
@@ -144,8 +145,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(Table.CategoriesTable.COLUMN_NAME));
-
-                categoriesList.add(new QuizCategory(categoryName));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Table.CategoriesTable._ID));
+                categoriesList.add(new QuizCategory(id,categoryName));
             } while (cursor.moveToNext());
 
             cursor.close();
@@ -154,6 +155,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return categoriesList;
     }
+
+    // Thêm phương thức để lấy danh sách câu hỏi ngẫu nhiên theo ID của category
+    public ArrayList<Question> getRandomQuestions(int categoryId, int limit) {
+        ArrayList<Question> questionList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Thực hiện truy vấn để lấy danh sách câu hỏi ngẫu nhiên
+        String query = "SELECT * FROM " + Table.QuestionsTable.TABLE_NAME +
+                " WHERE " + Table.QuestionsTable.COLUMN_CATEGORY_ID + " = ?" +
+                " ORDER BY RANDOM() LIMIT ?";
+        String[] selectionArgs = {String.valueOf(categoryId), String.valueOf(limit)};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Đọc thông tin từ Cursor và thêm vào danh sách
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Table.QuestionsTable._ID));
+                String questionTitle = cursor.getString(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_QUESTION));
+                String option1 = cursor.getString(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_OPTION1));
+                String option2 = cursor.getString(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_OPTION2));
+                String option3 = cursor.getString(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_OPTION3));
+                String option4 = cursor.getString(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_OPTION4));
+
+                int answer = cursor.getInt(cursor.getColumnIndexOrThrow(Table.QuestionsTable.COLUMN_ANSWER));
+
+                Question question = new Question(id, questionTitle, option1, option2, option3, option4, answer, categoryId);
+                questionList.add(question);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        db.close();
+        return questionList;
+    }
+
+
+
     // <>
 
 }

@@ -1,6 +1,7 @@
 package com.btl.quizapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.btl.quizapp.QuizCategory;
+import com.btl.quizapp.model.QuizCategory;
 import com.btl.quizapp.R;
 
 import java.util.ArrayList;
@@ -32,6 +33,13 @@ public class QuizCategoryAdapter extends RecyclerView.Adapter<QuizCategoryAdapte
         this.listener = listener;
     }
 
+    // Thêm một phương thức để lấy ID của category theo vị trí
+    public int getCategoryId(int position) {
+        if (position >= 0 && position < quizCategories.size()) {
+            return quizCategories.get(position).getCategoryId();
+        }
+        return -1; // hoặc một giá trị đặc biệt để chỉ ra lỗi
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,7 +72,10 @@ public class QuizCategoryAdapter extends RecyclerView.Adapter<QuizCategoryAdapte
                     if (listener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                            // Sử dụng phương thức mới để lấy ID của category và chuyển sang QuestionsActivity
+                            int categoryId = getCategoryId(position);
+                            Log.d("QuizCategoryAdapter", "Clicked category ID: " + categoryId);
+                            listener.onItemClick(categoryId);
                         }
                     }
                 }
