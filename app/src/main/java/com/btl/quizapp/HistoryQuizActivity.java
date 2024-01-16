@@ -3,6 +3,8 @@ package com.btl.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,12 +16,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.btl.quizapp.adapter.HistoryQuizAdapter;
+import com.btl.quizapp.database.DatabaseHelper;
+import com.btl.quizapp.model.HistoryQuiz;
+
+import java.util.ArrayList;
+
 public class HistoryQuizActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView menu;
     LinearLayout home, historyQuiz, changePassword,logout;
     TextView username, email;
+
+    private RecyclerView recyclerView;
+    private HistoryQuizAdapter historyQuizAdapter;
+    private ArrayList<HistoryQuiz> historyQuizList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +53,14 @@ public class HistoryQuizActivity extends AppCompatActivity {
         historyQuiz = findViewById(R.id.history_quiz);
         changePassword = findViewById(R.id.change_password);
         logout = findViewById(R.id.logout);
+        // show score
+        recyclerView = findViewById(R.id.rvRecordScore);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        historyQuizList = databaseHelper.getAllHistory();
+        historyQuizAdapter = new HistoryQuizAdapter(this, historyQuizList);
+        recyclerView.setAdapter(historyQuizAdapter);
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,11 +116,11 @@ public class HistoryQuizActivity extends AppCompatActivity {
         activity.startActivity(intent);
         activity.finish();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
 //        closeDrawer(drawerLayout);
         onBackPressed();
     }
+
 }

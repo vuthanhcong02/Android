@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.btl.quizapp.model.HistoryQuiz;
 import com.btl.quizapp.model.Question;
 import com.btl.quizapp.model.QuizCategory;
 import com.btl.quizapp.model.User;
@@ -193,7 +195,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionList;
     }
 
+    public ArrayList<HistoryQuiz> getAllHistory() {
+        ArrayList<HistoryQuiz> historyList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT *," +
+                "MAX(" + Table.HistoryQuizTable.TABLE_NAME + "." + Table.HistoryQuizTable.COLUMN_SCORE + ") AS max_score " +
+                "FROM " + Table.HistoryQuizTable.TABLE_NAME + " " +
+                "JOIN " + Table.UsersTable.TABLE_NAME + " ON " + Table.HistoryQuizTable.TABLE_NAME + "." + Table.HistoryQuizTable.COLUMN_USER_ID + " = " + Table.UsersTable.TABLE_NAME + "." + Table.UsersTable._ID + " " +
+                "JOIN " + Table.CategoriesTable.TABLE_NAME + " ON " + Table.HistoryQuizTable.TABLE_NAME + "." + Table.HistoryQuizTable.COLUMN_CATEGORY_ID + " = " + Table.CategoriesTable.TABLE_NAME + "." + Table.CategoriesTable._ID + " " +
+                "GROUP BY " + Table.HistoryQuizTable.TABLE_NAME + "." + Table.HistoryQuizTable.COLUMN_CATEGORY_ID + " " +
+                "ORDER BY max_score DESC";
 
+
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Table.HistoryQuizTable._ID));
+                int userId = cursor.getInt(cursor.getColumnIndexOrThrow(Table.HistoryQuizTable.COLUMN_USER_ID));
+                int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(Table.HistoryQuizTable.COLUMN_CATEGORY_ID));
+                int score = cursor.getInt(cursor.getColumnIndexOrThrow("max_score"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(Table.UsersTable.COLUMN_USERNAME));
+                String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(Table.CategoriesTable.COLUMN_NAME));
+                HistoryQuiz historyQuiz = new HistoryQuiz(score,userId, categoryId, username, categoryName);
+                historyList.add(historyQuiz);
+                Log.d("HistoryQuiz", historyQuiz.toString());
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+
+        return historyList;
+    };
 
     // <>
 
