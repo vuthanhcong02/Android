@@ -95,10 +95,17 @@ public class QuestionsActivity extends AppCompatActivity {
         // Bạn có thể thay đổi cách tính điểm theo yêu cầu của bạn
         return correctAnswers * 100 / totalQuestions;
     }
-
 //    private void showScore(int score) {
 //        TextView scoreTextView = findViewById(R.id.scoreTextView);
 //        scoreTextView.setText("Score: " + score);
 //        scoreTextView.setVisibility(View.VISIBLE);
 //    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

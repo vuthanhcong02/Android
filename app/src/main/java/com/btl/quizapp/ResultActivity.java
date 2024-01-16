@@ -33,6 +33,7 @@ public class ResultActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ResultActivity.this, MainActivity.class);
                 startActivity(intent); // Đóng ResultActivity và quay về MainActivity
+                finish();
             }
         });
     }
