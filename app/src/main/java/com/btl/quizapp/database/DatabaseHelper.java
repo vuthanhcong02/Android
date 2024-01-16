@@ -76,54 +76,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Nanh
-    public boolean isCategoryExists(String categoryName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String[] projection = {Table.CategoriesTable._ID};
-
-        String selection = Table.CategoriesTable.COLUMN_NAME + "=?";
-        String[] selectionArgs = {categoryName};
-
-        Cursor cursor = db.query(
-                Table.CategoriesTable.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        boolean exists = (cursor != null && cursor.getCount() > 0);
-
-        if (cursor != null) {
-            cursor.close();
-        }
-
-        db.close();
-
-        return exists;
-    }
-    public void createCategories() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-
-
-        String[] categoryNames = {"Toán", "Lý", "Hóa", "Văn", "Anh", "Sinh"};
-
-        for (int i = 0; i < categoryNames.length; i++) {
-            // Kiểm tra xem category đã tồn tại hay chưa
-            if (!isCategoryExists(categoryNames[i])) {
-                ContentValues values = new ContentValues();
-                values.put(Table.CategoriesTable.COLUMN_NAME, categoryNames[i]);
-
-                db.insert(Table.CategoriesTable.TABLE_NAME, null, values);
-            }
-        }
-
-        db.close();
-    }
-
     public ArrayList<QuizCategory> getAllCategories() {
         ArrayList<QuizCategory> categoriesList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -247,5 +199,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(Table.UsersTable.TABLE_NAME, contentValues,
                 Table.UsersTable._ID + " = ?",
                 new String[]{String.valueOf(id)});
+    }
+
+    public long addQuizHistory(int score, int userId, int categoryId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Table.HistoryQuizTable.COLUMN_SCORE, score);
+        values.put(Table.HistoryQuizTable.COLUMN_USER_ID, userId);
+        values.put(Table.HistoryQuizTable.COLUMN_CATEGORY_ID, categoryId);
+
+        // Thực hiện chèn dữ liệu và nhận lại ID của dòng được chèn (nếu thành công)
+        long result = db.insert(Table.HistoryQuizTable.TABLE_NAME, null, values);
+        db.close();
+        return result;
     }
 }
