@@ -126,20 +126,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public static void openDrawer(DrawerLayout drawerLayout){
         drawerLayout.openDrawer(GravityCompat.START);
     }
-//    public void closeDrawer(DrawerLayout drawerLayout){
-//        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        }
-//        else {
-//            super.onBackPressed();
-//        }
-//    }
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
             super.onBackPressed();
+            Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
     public static void redirectActivity(Activity activity, Class secondActivity) {

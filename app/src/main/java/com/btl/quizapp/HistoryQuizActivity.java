@@ -85,6 +85,9 @@ public class HistoryQuizActivity extends AppCompatActivity {
         }
         else {
             super.onBackPressed();
+            Intent intent = new Intent(HistoryQuizActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
     public static void redirectActivity(Activity activity, Class secondActivity) {

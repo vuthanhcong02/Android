@@ -1,7 +1,9 @@
 package com.btl.quizapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -21,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView sign_up;
     EditText username_input, password_input;
     Button login;
+    private boolean isBackPressed = true;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,5 +83,37 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+    @Override
+    public void onBackPressed() {
+        if(isBackPressed){
+            showExitConfirmationDialog();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    private void showExitConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận thoát");
+        builder.setMessage("Bạn có muốn thoát ứng dụng?");
+        builder.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish(); // Đóng ứng dụng nếu người dùng chọn thoát
+            }
+        });
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Đóng dialog và tiếp tục ở trang đăng nhập
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
