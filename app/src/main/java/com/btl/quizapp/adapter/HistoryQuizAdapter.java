@@ -32,9 +32,9 @@ public class HistoryQuizAdapter extends RecyclerView.Adapter<HistoryQuizAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HistoryQuiz historyQuiz = historyQuizList.get(position);
-        holder.tvUsername.setText(historyQuiz.getUsername());
-        holder.tvCategory.setText(historyQuiz.getCategory_name());
-        holder.tvScore.setText(String.valueOf(historyQuiz.getScore()));
+            holder.tvUsername.setText(historyQuiz.getUsername());
+            holder.tvCategory.setText(historyQuiz.getCategory_name());
+            holder.tvScore.setText(String.valueOf(historyQuiz.getScore()));
     }
 
     @Override
@@ -43,12 +43,13 @@ public class HistoryQuizAdapter extends RecyclerView.Adapter<HistoryQuizAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUsername, tvScore, tvCategory;
+        TextView tvUsername, tvScore, tvCategory,tvNo_Quiz;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvScore = itemView.findViewById(R.id.tvScore);
             tvCategory = itemView.findViewById(R.id.tvCategoryQuiz);
+            tvNo_Quiz = itemView.findViewById(R.id.no_historyQuiz);
         }
     }
 }

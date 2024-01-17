@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.content.SharedPreferences;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,8 +28,9 @@ public class HistoryQuizActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ImageView menu;
     LinearLayout home, historyQuiz, changePassword,logout;
-    TextView username, email;
-
+    TextView username, email,no_historyQuiz;
+    View bottomView;
+    Button back_to_main;
     private RecyclerView recyclerView;
     private HistoryQuizAdapter historyQuizAdapter;
     private ArrayList<HistoryQuiz> historyQuizList;
@@ -39,6 +41,9 @@ public class HistoryQuizActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         menu = findViewById(R.id.menu);
         home = findViewById(R.id.home);
+        no_historyQuiz = findViewById(R.id.no_historyQuiz);
+        bottomView = findViewById(R.id.bottomView);
+        back_to_main = findViewById(R.id.back_to_main);
         // show account = sharedPreferences
             username = findViewById(R.id.txtUsername);
             email = findViewById(R.id.txtEmail);
@@ -58,9 +63,20 @@ public class HistoryQuizActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         historyQuizList = databaseHelper.getAllHistory(userId_isLogin);
-        historyQuizAdapter = new HistoryQuizAdapter(this, historyQuizList);
-        recyclerView.setAdapter(historyQuizAdapter);
-
+        if(historyQuizList.size() == 0){
+            no_historyQuiz.setVisibility(View.VISIBLE);
+        }else{
+            historyQuizAdapter = new HistoryQuizAdapter(this, historyQuizList);
+            recyclerView.setAdapter(historyQuizAdapter);
+            no_historyQuiz.setVisibility(View.INVISIBLE);
+            bottomView.setVisibility(View.INVISIBLE);
+        }
+        back_to_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redirectActivity(HistoryQuizActivity.this, MainActivity.class);
+            }
+        });
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
