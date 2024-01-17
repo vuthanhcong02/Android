@@ -7,6 +7,7 @@ public class Question {
     private String option2;
     private String option3;
     private String option4;
+
     private int answer;
     private int categoryId;
 
@@ -20,7 +21,6 @@ public class Question {
         this.answer = answer;
         this.categoryId = categoryId;
     }
-
     public int getId() {
         return id;
     }
@@ -51,5 +51,37 @@ public class Question {
 
     public int getCategoryId() {
         return categoryId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
+    }
+
+    public void setOption1(String option1) {
+        this.option1 = option1;
+    }
+
+    public void setOption2(String option2) {
+        this.option2 = option2;
+    }
+
+    public void setOption3(String option3) {
+        this.option3 = option3;
+    }
+
+    public void setOption4(String option4) {
+        this.option4 = option4;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

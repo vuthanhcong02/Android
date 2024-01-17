@@ -1,6 +1,7 @@
 package com.btl.quizapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,33 +43,30 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
 
         // Hiển thị nội dung câu hỏi
         holder.questionTitle.setText(question.getQuestionTitle());
-
-        // Tạo radio button cho từng đáp án
         holder.radioButton1.setText(question.getOption1());
         holder.radioButton2.setText(question.getOption2());
         holder.radioButton3.setText(question.getOption3());
         holder.radioButton4.setText(question.getOption4());
-
         // Thiết lập sự kiện cho RadioGroup
         holder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // Xử lý sự kiện khi có radio button được chọn
-                // checkedId sẽ là ID của radio button được chọn
-                int selectedOption = -1;
+                    // Xử lý sự kiện chỉ khi người dùng thao tác
+                    int selectedOption = -1;
 
-                if (checkedId == R.id.radio_button1) {
-                    selectedOption = 1;
-                } else if (checkedId == R.id.radio_button2) {
-                    selectedOption = 2;
-                } else if (checkedId == R.id.radio_button3) {
-                    selectedOption = 3;
-                } else if (checkedId == R.id.radio_button4) {
-                    selectedOption = 4;
-                }
+                    if (checkedId == R.id.radio_button1) {
+                        selectedOption = 1;
+                    } else if (checkedId == R.id.radio_button2) {
+                        selectedOption = 2;
+                    } else if (checkedId == R.id.radio_button3) {
+                        selectedOption = 3;
+                    } else if (checkedId == R.id.radio_button4) {
+                        selectedOption = 4;
+                    }
 
-                // Lưu câu trả lời của người dùng vào SparseArray
-                userAnswers.put(position, selectedOption);
+                    // Lưu câu trả lời của người dùng vào SparseArray
+                    userAnswers.put(position, selectedOption);
+                        Log.d("QuestionsAdapter", "Selected option: " + userAnswers);
             }
         });
     }
