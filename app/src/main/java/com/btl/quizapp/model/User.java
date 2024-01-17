@@ -1,5 +1,11 @@
 package com.btl.quizapp.model;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.btl.quizapp.database.DatabaseHelper;
+import com.btl.quizapp.database.Table;
+
 public class User {
     private int id;
     private String username;

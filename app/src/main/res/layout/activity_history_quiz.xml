@@ -20,12 +20,96 @@
             android:layout_height="160dp"
             app:srcCompat="@drawable/cup_quiz" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRecordScore"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
-        />
+            android:text="Thành tích cao nhất của bạn"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/header_bkg"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Tên "
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Môn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Điểm cao nhất"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+            </TableRow>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecordScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                />
+        </TableLayout>
+        <TableRow android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            >
+            <TextView
+                android:id="@+id/no_historyQuiz"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14dp"
+                android:text="Hiện tại bạn chưa có bài thi nào!"
+                android:layout_weight="@integer/material_motion_duration_long_1"
+                android:gravity="center"
+                />
+        </TableRow>
+        <View
+            android:id="@+id/bottomView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lavender"
+            />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/back_to_main"
+            android:layout_below="@id/rvRecordScore"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:drawableLeft="@drawable/back"
+            android:text="Màn hình chính"
+            />
 
     </LinearLayout>
     <RelativeLayout
