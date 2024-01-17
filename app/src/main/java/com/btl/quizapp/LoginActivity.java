@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
                         User user = databaseHelper.getUserData(username, password);
                         if(user != null){
 //                            Log.d("UserInfo", "Username: " + user.getUsername() + ", Email: " + user.getEmail());
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             String id = String.valueOf(user.getId());
 //                            intent.putExtra("id_Infor", id);
                             String usernameInfor = user.getUsername();
@@ -67,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("email_Infor", emailInfor);
                             editor.putString("password_Infor", passwordInfor);
                             editor.apply();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
                     }

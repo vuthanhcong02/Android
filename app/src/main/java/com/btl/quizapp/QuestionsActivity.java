@@ -74,6 +74,10 @@ public class QuestionsActivity extends AppCompatActivity {
         Intent intent = new Intent(QuestionsActivity.this, ResultActivity.class);
         intent.putExtra("SCORE", score);
 
+        // Lấy categoryId từ Intent và truyền vào ResultActivity
+        int categoryId = getIntent().getIntExtra("CATEGORY_ID", -1);
+        intent.putExtra("CATEGORY_ID", categoryId);
+
         // Đặt cờ để xóa các Activity khác ra khỏi stack và sử dụng Activity hiện tại nếu nó đã tồn tại
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

@@ -43,12 +43,12 @@ public class HistoryQuizActivity extends AppCompatActivity {
             username = findViewById(R.id.txtUsername);
             email = findViewById(R.id.txtEmail);
             SharedPreferences preferences = getSharedPreferences("user_info", MODE_PRIVATE);
-            String id = preferences.getString("id_Infor", "");
-            String usernameInfor = preferences.getString("username_Infor", "");
-            String emailInfor = preferences.getString("email_Infor", "");
-            String passwordInfor = preferences.getString("password_Infor", "");
-            username.setText(usernameInfor);
-            email.setText(emailInfor);
+            Integer userId_isLogin = Integer.valueOf(preferences.getString("id_Infor", ""));
+            String usernameInfor_isLogin = preferences.getString("username_Infor", "");
+            String emailInfor_isLogin = preferences.getString("email_Infor", "");
+            String passwordInfor_isLogin = preferences.getString("password_Infor", "");
+            username.setText(usernameInfor_isLogin);
+            email.setText(emailInfor_isLogin);
         //
         historyQuiz = findViewById(R.id.history_quiz);
         changePassword = findViewById(R.id.change_password);
@@ -57,7 +57,7 @@ public class HistoryQuizActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvRecordScore);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        historyQuizList = databaseHelper.getAllHistory();
+        historyQuizList = databaseHelper.getAllHistory(userId_isLogin);
         historyQuizAdapter = new HistoryQuizAdapter(this, historyQuizList);
         recyclerView.setAdapter(historyQuizAdapter);
 
