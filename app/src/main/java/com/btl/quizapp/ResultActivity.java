@@ -38,7 +38,7 @@ public class ResultActivity extends AppCompatActivity {
 
         // Hiển thị điểm trên TextView
         TextView scoreTextView = findViewById(R.id.scoreTextView);
-        scoreTextView.setText("Your score: " + score);
+        scoreTextView.setText("Điểm của bạn: " + score);
 
         // Xử lý sự kiện khi nhấn nút Back về MainActivity
         Button backButton = findViewById(R.id.backButton);
